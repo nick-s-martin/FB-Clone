@@ -6,7 +6,7 @@ namespace Scripts.Environment
     {
         [SerializeField] Transform _transform;
 
-        void Update()
+        private void Update()
         {
         if (_transform.position.x < -4.5)
             {
