@@ -33,6 +33,11 @@ namespace Scripts.Player
                 _flapForce = 0f;
                 FindObjectOfType<Environment.Environment>().Stop();
             }
+
+            if (collisionInfo.tag == "Goal")
+            {
+                //add to score
+            }
         }
-	}
+    }
 }
