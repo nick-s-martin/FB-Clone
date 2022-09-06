@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Scripts.Environment;
 
 namespace Scripts.Player
@@ -8,10 +9,22 @@ namespace Scripts.Player
 		[SerializeField] Rigidbody2D _rigidbody2D;
 		[SerializeField] private float _flapForce = 200f;
 
+		public float _score = 0f;
+		public string _scoreText;
+
 		private void Update()
 		{
-			if (Input.anyKeyDown)
+            string _scoreText = _score.ToString();
+
+            if (Input.anyKeyDown)
 			{
+				if (EventSystem.current.IsPointerOverGameObject())
+					if (Input.GetMouseButtonDown(0))
+						return;
+
+				if (Input.GetKeyDown(KeyCode.Escape))
+					return;
+
 				_rigidbody2D.AddForce(Vector2.up * _flapForce, ForceMode2D.Impulse);
 			}
 		}
@@ -36,7 +49,7 @@ namespace Scripts.Player
 
             if (collisionInfo.tag == "Goal")
             {
-                //add to score
+				_score = _score + 1;
             }
         }
     }
