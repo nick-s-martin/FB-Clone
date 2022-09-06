@@ -5,16 +5,24 @@ namespace Scripts.Environment
     public class Environment : MonoBehaviour
     {
         [SerializeField] Transform _transform;
-        [SerializeField] private float _velocity = 5f;
+        [SerializeField] private float _velocity;
+
+        private bool moving = false;
 
         private void Update()
         {
+            if (moving == true)
             _transform.position -= transform.right * Time.deltaTime * _velocity;
         }
 
-        public void Stop()
+        public void ResumeEnvironment()
         {
-            _velocity = 0f;
+            moving = true;
+        }
+
+        public void PauseEnvironment()
+        {
+            moving = false;
         }
     }
 }

@@ -1,6 +1,7 @@
+using Scripts.Scoring;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Scripts.Environment;
+using Scripts.GameManager;
 
 namespace Scripts.Player
 {
@@ -8,14 +9,20 @@ namespace Scripts.Player
 	{
 		[SerializeField] Rigidbody2D _rigidbody2D;
 		[SerializeField] private float _flapForce = 200f;
+		[SerializeField] GameObject Score;
 
-		public float _score = 0f;
-		public string _scoreText;
+		public void PauseBird()
+		{
+			_rigidbody2D.isKinematic = true;
+		}
+
+		public void ResumeBird()
+		{
+            _rigidbody2D.isKinematic = false;
+        }
 
 		private void Update()
 		{
-            string _scoreText = _score.ToString();
-
             if (Input.anyKeyDown)
 			{
 				if (EventSystem.current.IsPointerOverGameObject())
@@ -34,7 +41,7 @@ namespace Scripts.Player
 			if (collisionInfo.collider.tag == "Environment")
 			{
                 _flapForce = 0f;
-                FindObjectOfType<Environment.Environment>().Stop();
+                FindObjectOfType<Environment.Environment>().PauseEnvironment();
             }
 			
 		}
@@ -44,12 +51,12 @@ namespace Scripts.Player
             if (collisionInfo.tag == "Environment")
             {
                 _flapForce = 0f;
-                FindObjectOfType<Environment.Environment>().Stop();
+                FindObjectOfType<Environment.Environment>().PauseEnvironment();
             }
 
             if (collisionInfo.tag == "Goal")
             {
-				_score = _score + 1;
+				FindObjectOfType<Score>().updateScore();
             }
         }
     }

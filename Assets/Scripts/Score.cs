@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using Scripts.Player;
+using UnityEngine;
 
-public class Score : MonoBehaviour
+namespace Scripts.Scoring
 {
-    public TMP_Text textDisplay;
-    Bird _scoreText;
-
-    private void Update()
+    public class Score : MonoBehaviour
     {
-        textDisplay.text = _scoreText.ToString();
+        public TMP_Text _scoreText;
+        public float _score = 0f;
+
+        public void updateScore()
+        {
+            _score = _score + 1;
+            _scoreText.text = _score.ToString();
+        }
     }
 }
+
