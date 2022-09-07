@@ -1,4 +1,5 @@
 using Scripts.Player;
+using Scripts.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -10,9 +11,14 @@ namespace Scripts.GameManager
     {
         public bool gameHasStarted = false;
 
-        void Awake()
+        private void OnLevelWasLoaded(int level)
         {
-            FindObjectOfType<Bird>().PauseBird();
+            if (SceneManager.GetActiveScene().name == "Game Scene")
+            {
+                FindObjectOfType<Bird>().PauseBird();
+                FindObjectOfType<Enviro>().PauseEnvironment();
+                FindObjectOfType<ReadyMenu>().OpenMenu();
+            }
         }
 
         private void Update()
@@ -29,6 +35,7 @@ namespace Scripts.GameManager
                         return;
 
                     ResumeGame();
+                    FindObjectOfType<ReadyMenu>().CloseMenu();
                     gameHasStarted = true;
                 }
             }
@@ -38,12 +45,27 @@ namespace Scripts.GameManager
         {
             FindObjectOfType<Bird>().ResumeBird();
             FindObjectOfType<Enviro>().ResumeEnvironment();
+            FindObjectOfType<PauseMenu>().CloseMenu();
         }
 
         public void RestartGame()
         {
             SceneManager.LoadScene("Game Scene");
             gameHasStarted = false;
+        }
+
+        public void PauseGame()
+        {
+            FindObjectOfType<Bird>().PauseBird();
+            FindObjectOfType<Enviro>().PauseEnvironment();
+            FindObjectOfType<PauseMenu>().OpenMenu();
+        }
+
+        public void Death()
+        {
+            FindObjectOfType<Bird>().DeadBird();
+            FindObjectOfType<Enviro>().PauseEnvironment();
+            FindObjectOfType<GameOver>().OpenMenu();
         }
     }
 }

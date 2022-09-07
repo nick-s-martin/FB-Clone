@@ -5,9 +5,9 @@ namespace Scripts.Environment
     public class Environment : MonoBehaviour
     {
         [SerializeField] Transform _transform;
-        [SerializeField] private float _velocity;
+        [SerializeField] public float _velocity;
 
-        private bool moving = false;
+        private bool moving = true;
 
         private void Update()
         {

@@ -1,12 +1,17 @@
 using TMPro;
 using UnityEngine;
 
-namespace Scripts.Scoring
+namespace Scripts.UI
 {
     public class Score : MonoBehaviour
     {
         public TMP_Text _scoreText;
-        public float _score = 0f;
+        public float _score;
+
+        public void Start()
+        {
+            _score = 0f;
+        }
 
         public void updateScore()
         {

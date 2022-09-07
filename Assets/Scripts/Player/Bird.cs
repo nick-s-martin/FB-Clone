@@ -1,7 +1,8 @@
-using Scripts.Scoring;
+using Scripts.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Scripts.GameManager;
+using Unity.VisualScripting;
 
 namespace Scripts.Player
 {
@@ -9,16 +10,21 @@ namespace Scripts.Player
 	{
 		[SerializeField] Rigidbody2D _rigidbody2D;
 		[SerializeField] private float _flapForce = 200f;
-		[SerializeField] GameObject Score;
+		private float _angle = 0f;
 
 		public void PauseBird()
 		{
-			_rigidbody2D.isKinematic = true;
+			_rigidbody2D.simulated = false;
 		}
 
 		public void ResumeBird()
 		{
-            _rigidbody2D.isKinematic = false;
+            _rigidbody2D.simulated = true;
+        }
+
+		public void DeadBird()
+		{
+            _flapForce = 0f;
         }
 
 		private void Update()
@@ -34,14 +40,28 @@ namespace Scripts.Player
 
 				_rigidbody2D.AddForce(Vector2.up * _flapForce, ForceMode2D.Impulse);
 			}
-		}
+
+			if (_rigidbody2D.position.y > 5)
+			{
+				_rigidbody2D.velocity = Vector2.zero;
+			}
+
+			if (_rigidbody2D.velocity.y >= 0)
+			{
+				_angle = 0;
+			}
+			else {
+                _angle = Mathf.Atan2(_rigidbody2D.velocity.y, FindObjectOfType<Environment.Environment>()._velocity) * Mathf.Rad2Deg;
+            }
+
+            _rigidbody2D.SetRotation(_angle);
+        }
 
 		private void OnCollisionEnter2D(Collision2D collisionInfo)
 		{
 			if (collisionInfo.collider.tag == "Environment")
 			{
-                _flapForce = 0f;
-                FindObjectOfType<Environment.Environment>().PauseEnvironment();
+                FindObjectOfType<GameManager.GameManager>().Death();
             }
 			
 		}
@@ -50,8 +70,7 @@ namespace Scripts.Player
 		{
             if (collisionInfo.tag == "Environment")
             {
-                _flapForce = 0f;
-                FindObjectOfType<Environment.Environment>().PauseEnvironment();
+                FindObjectOfType<GameManager.GameManager>().Death();
             }
 
             if (collisionInfo.tag == "Goal")
