@@ -10,16 +10,20 @@ namespace Scripts.Player
 	{
 		[SerializeField] Rigidbody2D _rigidbody2D;
 		[SerializeField] private float _flapForce = 200f;
+		private Vector2 _direction;
 		private float _angle = 0f;
+		private GameObject[] _scores;
 
 		public void PauseBird()
 		{
 			_rigidbody2D.simulated = false;
+			_direction = Vector2.zero;
 		}
 
 		public void ResumeBird()
 		{
             _rigidbody2D.simulated = true;
+			_direction = Vector2.up;
         }
 
 		public void DeadBird()
@@ -38,7 +42,7 @@ namespace Scripts.Player
 				if (Input.GetKeyDown(KeyCode.Escape))
 					return;
 
-				_rigidbody2D.AddForce(Vector2.up * _flapForce, ForceMode2D.Impulse);
+				_rigidbody2D.AddForce(_direction * _flapForce, ForceMode2D.Impulse);
 			}
 
 			if (_rigidbody2D.position.y > 5)
@@ -76,7 +80,12 @@ namespace Scripts.Player
             if (collisionInfo.tag == "Goal")
             {
 				FindObjectOfType<Score>().updateScore();
-            }
+				/*_scores = GameObject.FindGameObjectsWithTag("Score");
+				foreach (var _scorereceiver in _scores)
+				{
+					_scorereceiver.
+                }*/
+			}
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Scripts.GameManager
     public class GameManager : MonoBehaviour
     {
         public bool gameHasStarted = false;
+        public bool gameIsPlaying = false;
 
         private void OnLevelWasLoaded(int level)
         {
@@ -18,6 +19,7 @@ namespace Scripts.GameManager
                 FindObjectOfType<Bird>().PauseBird();
                 FindObjectOfType<Enviro>().PauseEnvironment();
                 FindObjectOfType<ReadyMenu>().OpenMenu();
+                gameHasStarted = false;
             }
         }
 
@@ -46,19 +48,22 @@ namespace Scripts.GameManager
             FindObjectOfType<Bird>().ResumeBird();
             FindObjectOfType<Enviro>().ResumeEnvironment();
             FindObjectOfType<PauseMenu>().CloseMenu();
+            gameIsPlaying = true;
         }
 
         public void RestartGame()
         {
             SceneManager.LoadScene("Game Scene");
-            gameHasStarted = false;
         }
 
         public void PauseGame()
         {
-            FindObjectOfType<Bird>().PauseBird();
-            FindObjectOfType<Enviro>().PauseEnvironment();
-            FindObjectOfType<PauseMenu>().OpenMenu();
+            if (gameIsPlaying == true)
+            {
+                FindObjectOfType<Bird>().PauseBird();
+                FindObjectOfType<Enviro>().PauseEnvironment();
+                FindObjectOfType<PauseMenu>().OpenMenu();
+            }
         }
 
         public void Death()
@@ -66,6 +71,7 @@ namespace Scripts.GameManager
             FindObjectOfType<Bird>().DeadBird();
             FindObjectOfType<Enviro>().PauseEnvironment();
             FindObjectOfType<GameOver>().OpenMenu();
+            gameIsPlaying = false;
         }
     }
 }
