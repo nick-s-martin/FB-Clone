@@ -1,13 +1,15 @@
 using UnityEngine;
-using Scripts.GameManager;
+using Scripts.GameManagement;
 
 namespace Scripts.UI
 {
     public class Retry : MonoBehaviour
     {
+        [SerializeField] GameManager gameManager;
+
         public void RestartGame()
         {
-            FindObjectOfType<GameManager.GameManager>().RestartGame();
+            gameManager.RestartGame();
         }
     }
 }

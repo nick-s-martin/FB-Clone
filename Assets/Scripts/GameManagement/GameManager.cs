@@ -3,26 +3,50 @@ using Scripts.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using Enviro = Scripts.Environment.Environment;
+using Scripts.Obstacles;
 
-namespace Scripts.GameManager
+namespace Scripts.GameManagement
 {
     public class GameManager : MonoBehaviour
     {
+        public static GameManager instance;
+
+        [SerializeField] Bird bird;
+        [SerializeField] Environment environment;
+        [SerializeField] ReadyMenu readyMenu;
+        [SerializeField] PauseMenu pauseMenu;
+        [SerializeField] GameOver gameOver;
+
         public bool gameHasStarted = false;
         public bool gameIsPlaying = false;
 
+
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(this);
+            }
+            else
+            {
+                Destroy(this);
+            }
+        }
+
+        //Ready Game
         private void OnLevelWasLoaded(int level)
         {
             if (SceneManager.GetActiveScene().name == "Game Scene")
             {
-                FindObjectOfType<Bird>().PauseBird();
-                FindObjectOfType<Enviro>().PauseEnvironment();
-                FindObjectOfType<ReadyMenu>().OpenMenu();
+                bird.PauseBird();
+                environment.PauseEnvironment();
+                readyMenu.OpenMenu();
                 gameHasStarted = false;
             }
         }
 
+        //Start Game
         private void Update()
         {
             if (gameHasStarted == false)
@@ -37,7 +61,7 @@ namespace Scripts.GameManager
                         return;
 
                     ResumeGame();
-                    FindObjectOfType<ReadyMenu>().CloseMenu();
+                    readyMenu.CloseMenu();
                     gameHasStarted = true;
                 }
             }
@@ -45,9 +69,9 @@ namespace Scripts.GameManager
 
         public void ResumeGame()
         {
-            FindObjectOfType<Bird>().ResumeBird();
-            FindObjectOfType<Enviro>().ResumeEnvironment();
-            FindObjectOfType<PauseMenu>().CloseMenu();
+            bird.ResumeBird();
+            environment.ResumeEnvironment();
+            pauseMenu.CloseMenu();
             gameIsPlaying = true;
         }
 
@@ -60,17 +84,17 @@ namespace Scripts.GameManager
         {
             if (gameIsPlaying == true)
             {
-                FindObjectOfType<Bird>().PauseBird();
-                FindObjectOfType<Enviro>().PauseEnvironment();
-                FindObjectOfType<PauseMenu>().OpenMenu();
+                bird.PauseBird();
+                environment.PauseEnvironment();
+                pauseMenu.OpenMenu();
             }
         }
 
         public void Death()
         {
-            FindObjectOfType<Bird>().DeadBird();
-            FindObjectOfType<Enviro>().PauseEnvironment();
-            FindObjectOfType<GameOver>().OpenMenu();
+            bird.DeadBird();
+            environment.PauseEnvironment();
+            gameOver.OpenMenu();
             gameIsPlaying = false;
         }
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Scripts.Environment
+namespace Scripts.Obstacles
 {
     public class Ground : MonoBehaviour
     {

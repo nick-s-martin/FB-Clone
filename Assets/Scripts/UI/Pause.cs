@@ -1,13 +1,15 @@
-using Scripts.GameManager;
+using Scripts.GameManagement;
 using UnityEngine;
 
 namespace Scripts.UI
 {
     public class Pause : MonoBehaviour
     {
+        [SerializeField] GameManager gameManager;
+
         public void PauseGame()
         {
-            FindObjectOfType<GameManager.GameManager>().PauseGame();
+            gameManager.PauseGame();
         }
 
         public void Update()
