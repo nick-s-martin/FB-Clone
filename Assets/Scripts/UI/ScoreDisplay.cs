@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Scripts.Player;
 
 namespace Scripts.UI
 {

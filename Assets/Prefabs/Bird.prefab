@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1557831367612763000}
   - component: {fileID: 6362626817738247915}
+  - component: {fileID: 8815899735601101720}
   - component: {fileID: 1557831367612763007}
   - component: {fileID: 1557831367612763006}
   - component: {fileID: 1557831367612763005}
@@ -48,9 +49,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0556adac0cca21a4f96e66da0e892043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody2D: {fileID: 0}
+  _rigidbody2D: {fileID: 1557831367612763005}
   _flapForce: 8
-  score: {fileID: 0}
+  gameManager: {fileID: 9087677996882171444, guid: 3ebdc3de998865b49b2d871c80d9a043, type: 3}
+--- !u!114 &8815899735601101720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557831367612762979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984b193d69d27c84d87e82b2b39ccd5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &1557831367612763007
 SpriteRenderer:
   m_ObjectHideFlags: 0

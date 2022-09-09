@@ -26,7 +26,6 @@ namespace Scripts.GameManagement
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(this);
             }
             else
             {

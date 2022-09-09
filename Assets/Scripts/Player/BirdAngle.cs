@@ -10,11 +10,6 @@ public class BirdAngle : MonoBehaviour
 
     private void Update()
     {
-        if (_rigidbody2D.position.y > 5)
-        {
-            _rigidbody2D.velocity = Vector2.zero;
-        }
-
         if (_rigidbody2D.velocity.y >= 0)
         {
             _angle = 0;

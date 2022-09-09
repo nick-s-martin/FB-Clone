@@ -10,29 +10,28 @@ namespace Scripts.Player
 		[SerializeField] private float _flapForce = 8f;
 		[SerializeField] GameManager gameManager;
 
-		private Vector2 _direction;
-		private bool moving = false;
+		private bool flying = false;
 
 		public void PauseBird()
 		{
-			moving = false;
+			flying = false;
 			_rigidbody2D.simulated = false;
 		}
 
 		public void ResumeBird()
 		{
-			moving = true;
+			flying = true;
             _rigidbody2D.simulated = true;
         }
 
 		public void DeadBird()
 		{
-			moving = false;
+			flying = false;
         }
 
 		private void Update()
 		{
-			if (moving == true)
+			if (flying == true)
 			{
                 if (Input.anyKeyDown)
                 {
@@ -43,9 +42,14 @@ namespace Scripts.Player
                     if (Input.GetKeyDown(KeyCode.Escape))
                         return;
 
-                    _rigidbody2D.AddForce(_direction * _flapForce, ForceMode2D.Impulse);
+                    _rigidbody2D.AddForce(Vector2.up * _flapForce, ForceMode2D.Impulse);
                 }
             }
+
+			if (_rigidbody2D.position.y > 5)
+			{
+				_rigidbody2D.velocity = Vector2.zero;
+			}
         }
 
 		private void OnCollisionEnter2D(Collision2D collisionInfo)
