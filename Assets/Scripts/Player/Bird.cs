@@ -1,14 +1,18 @@
 using Scripts.GameManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Scripts.SoundManagement;
 
 namespace Scripts.Player
 {
 	public class Bird : MonoBehaviour
 	{
-		[SerializeField] Rigidbody2D _rigidbody2D;
+        [SerializeField] GameManager gameManager;
+		[SerializeField] SoundManager soundManager;
+        [SerializeField] Rigidbody2D _rigidbody2D;
 		[SerializeField] private float _flapForce = 8f;
-		[SerializeField] GameManager gameManager;
+		[SerializeField] AudioClip _flapSound, _collisionSound, _scoreSound;
+		[SerializeField] AudioCue_Channel _audioCue_Channel;
 
 		private bool flying = false;
 
@@ -43,6 +47,7 @@ namespace Scripts.Player
                         return;
 
                     _rigidbody2D.AddForce(Vector2.up * _flapForce, ForceMode2D.Impulse);
+					PlayAudioCue(_flapSound);
                 }
             }
 
@@ -57,6 +62,7 @@ namespace Scripts.Player
 			if (collisionInfo.collider.tag == "Environment")
 			{
                 gameManager.Death();
+                PlayAudioCue(_collisionSound);
             }
 			
 		}
@@ -66,7 +72,18 @@ namespace Scripts.Player
             if (collisionInfo.tag == "Environment")
             {
                 gameManager.Death();
+				PlayAudioCue(_collisionSound);
+            }
+
+            if (collisionInfo.tag == "Goal")
+            {
+                PlayAudioCue(_scoreSound);
             }
         }
+
+		public void PlayAudioCue(AudioClip audioClip)
+		{
+			_audioCue_Channel.AudioCue(audioClip);
+		}
     }
 }
